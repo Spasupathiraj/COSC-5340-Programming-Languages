@@ -1,0 +1,65 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 TimesNewRomanPSMT;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww35640\viewh21840\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 //  File Name: Assignment_2_BigInt.h\
+//  Author: Saranath Raj Pasupathi Raj \
+//  Student ID: 6001185214\
+//  Class Number: COSC 5340\
+//  Section Number: 80955\
+//  Semester: Master's in Computer Science, Fourth Semester (Fall 2023) \
+//  Assignment Number: Assignment 2\
+//  Date Created: October 10, 2023\
+//  Program Description: \
+        //  Write a program in C++ (using carryover low-level features of C) \
+        //  That will partially implement an abstract data type bigInt allowing for unsigned integers of up to 64-bit length.\
+        //  Your program should accept from an input file pairs of unsigned hex constants of up to 16 hex digits each. \
+        //  For each pair print the two constants, their sum, and their product to an output file. \
+        //  Leading zeros are optional.\
+        //  The arithmetic should be the 64-bit integer arithmetic summarized on the following pages. \
+        //  High order overflow bits (beyond 64 bits) should be truncated, but any sum or \
+        //  product resulting in such truncation should be followed by the character 'T'.\
+        //  Use the following pairs for your test data (see/use the provided input file). \
+        //  Graduate students must create additional test pairs to more fully exercise the 64-bit abstract integer data type.\
+\
+ \
+\
+#ifndef BIGINT_H\
+#define BIGINT_H\
+\
+#include <iostream>\
+#include <fstream>\
+\
+class bigInt \
+\{\
+    unsigned int loworder;\
+    unsigned int highorder;\
+    int overflow;\
+\
+public:\
+    // Default constructor\
+    bigInt();\
+\
+    // Friend function to overload the input operator >>\
+    friend std::istream& operator>>(std::istream& in, bigInt& b);\
+\
+    // Friend function to overload the output operator <<\
+    friend std::ostream& operator<<(std::ostream& out, const bigInt& b);\
+\
+    // Overloaded addition operator +\
+    bigInt operator+(const bigInt&) const;\
+\
+    // Overloaded multiplication operator *\
+    bigInt operator*(const bigInt&) const;\
+\
+private:\
+    // Private member function for shifting left\
+    void shiftLeft(int);\
+\};\
+\
+#endif // BIGINT_H\
+\
+}

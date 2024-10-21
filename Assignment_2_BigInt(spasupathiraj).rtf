@@ -1,0 +1,134 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 TimesNewRomanPSMT;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww35640\viewh21840\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 //  File Name: Assignment_2_BigInt.cpp\
+//  Author: Saranath Raj Pasupathi Raj \
+//  Student ID: 6001185214\
+//  Class Number: COSC 5340\
+//  Section Number: 80955\
+//  Semester: Master's in Computer Science, Fourth Semester (Fall 2023) \
+//  Assignment Number: Assignment 2\
+//  Date Created: October 10, 2023\
+//  Program Description: \
+        //  Write a program in C++ (using carryover low-level features of C) \
+        //  That will partially implement an abstract data type bigInt allowing for unsigned integers of up to 64-bit length.\
+        //  Your program should accept from an input file pairs of unsigned hex constants of up to 16 hex digits each. \
+        //  For each pair print the two constants, their sum, and their product to an output file. \
+        //  Leading zeros are optional.\
+        //  The arithmetic should be the 64-bit integer arithmetic summarized on the following pages. \
+        //  High order overflow bits (beyond 64 bits) should be truncated, but any sum or \
+        //  product resulting in such truncation should be followed by the character 'T'.\
+        //  Use the following pairs for your test data (see/use the provided input file). \
+        //  Graduate students must create additional test pairs to more fully exercise the 64-bit abstract integer data type.\
+\
+ \
+\
+#include "bigInt.h"\
+\
+// Default constructor for bigInt\
+bigInt::bigInt() : loworder(0), highorder(0), overflow(0) \{\}\
+\
+// Overloaded input operator to read a big integer from an input stream\
+std::istream& operator>>(std::istream& in, bigInt& b) \
+\{\
+    unsigned long long int num;\
+    \
+    // Read a hexadecimal number from the input stream\
+    in >> std::hex >> num;\
+    \
+    // Extract the low and high order parts from the 64-bit number and store them in the bigInt\
+    b.loworder = static_cast<unsigned int>(num);\
+    b.highorder = static_cast<unsigned int>(num >> 32);\
+    \
+    // Initialize the overflow flag to 0\
+    b.overflow = 0;\
+    \
+    return in;\
+\}\
+\
+// Overloaded output operator to write a big integer to an output stream\
+std::ostream& operator<<(std::ostream& out, const bigInt& b)\
+\{\
+    // Convert and output the big integer in hexadecimal format\
+    out << std::hex << ((static_cast<unsigned long long>(b.highorder) << 32) | b.loworder);\
+\
+    // If the overflow flag is set, append 'T' to indicate overflow\
+    if (b.overflow) \{\
+        out << 'T';\
+    \}\
+    return out;\
+\}\
+\
+// Overloaded addition operator to add two big integers\
+bigInt bigInt::operator+(const bigInt& b) const\
+\{\
+    // Create a new big integer to store the result\
+    bigInt c;\
+\
+    // Calculate the sum of the low-order parts of both big integers\
+    unsigned long long int sum = static_cast<unsigned long long>(loworder) + static_cast<unsigned long long>(b.loworder);\
+    \
+    // Store the low-order part of the sum in the result\
+    c.loworder = static_cast<unsigned int>(sum);\
+    \
+    // Calculate the carry from adding the high-order parts and the carry from adding the low-order parts\
+    c.highorder = static_cast<unsigned int>((sum >> 32) + static_cast<unsigned long long>(highorder) + static_cast<unsigned long long>(b.highorder));\
+    \
+    // Set the overflow flag to 1 if there's a carry out of the high-order part, 0 otherwise\
+    c.overflow = (c.highorder < highorder || c.highorder < b.highorder) ? 1 : 0;\
+\
+    return c;\
+\}\
+\
+// Overloaded multiplication operator to multiply two big integers\
+bigInt bigInt::operator*(const bigInt& b) const \
+\{\
+    // Create a new big integer to store the result\
+    bigInt c;\
+    \
+    // Calculate the product of the low-order parts of both big integers\
+    unsigned long long int prod = (static_cast<unsigned long long>(loworder) * static_cast<unsigned long long>(b.loworder));\
+    \
+    // Store the low-order part of the product in the result\
+    c.loworder = static_cast<unsigned int>(prod);\
+    \
+    // Calculate the high-order part of the product\
+    c.highorder = static_cast<unsigned int>(prod >> 32);\
+    \
+    // Add the contributions from cross products of high and low-order parts\
+    c.highorder += (static_cast<unsigned long long>(highorder) * static_cast<unsigned long long>(b.loworder)) + \
+                   (static_cast<unsigned long long>(loworder) * static_cast<unsigned long long>(b.highorder));\
+    \
+    // Set the overflow flag to 1 if there's a carry out of the high-order part, 0 otherwise\
+    c.overflow = (c.highorder < highorder || c.highorder < b.highorder) ? 1 : 0;\
+    \
+    return c;\
+\}\
+\
+// Shift left operation for a big integer by 'n' bits\
+void bigInt::shiftLeft(int n) \
+\{\
+    if (n >= 0 && n < 32) \
+    \{\
+        // If the shift is within the low-order part (0-31 bits), perform a simple shift operation\
+        unsigned int temp = loworder >> (32 - n);  // Store the bits that will be shifted out\
+        loworder <<= n;                            // Shift the low-order part left by 'n' bits\
+        highorder <<= n;                           // Shift the high-order part left by 'n' bits\
+        highorder |= temp;                         // Combine the bits shifted out with the high-order part\
+    \} \
+    else if (n >= 32 && n < 64)\
+    \{\
+        // If the shift spans both low and high-order parts (32-63 bits), adjust accordingly\
+        highorder = loworder << (n - 32);         // Shift the low-order part into the high-order part\
+        loworder = 0;                             // Set the low-order part to zero\
+    \}\
+\}\
+\
+\
+\
+\
+}
