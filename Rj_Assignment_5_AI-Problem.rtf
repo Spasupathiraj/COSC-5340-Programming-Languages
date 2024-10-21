@@ -1,0 +1,63 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 TimesNewRomanPSMT;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 %	Kindly, use "https://swish.swi-prolog.org/" to execute the code\
+%	Please, paste the queries in the right bottom window to Test, \
+%	Include ?- if required before the query \
+\
+%	File Name: AI-Problem.pl\
+%	Class Number : COSC 5340\
+%	Section Number : 81344\
+%	Semester: Master's in Computer Science, Second Semester (Fall 2022)\
+%	Assignment Number: Assignment 5 (Logic Programming Language - Prolog)\
+%	Date Created: December 2, 2022\
+%	Project Description: Prolog program to solve the following (AI) Problem\
+%	1. Two jugs are set next to a stream of water \
+%	2. One jug (which is shaped like a blob) holds X gallons \
+%	3. The other jug (which is shaped like a glob) holds Y gallons \
+%	4. Using only the following actions (empty a jug, fill a jug, pour one jug into the other) \
+%	5. Give the steps needed to measure Z gallons \
+%	6. You may assume that Z will be less than or equal to either X or Y\
+\
+%	For example, If X is 3, Y is 5, and Z is 4, the steps may be as follows\
+%	 - Fill Jug 2 (0, 5)\
+%	 - Pour Jug 2 into Jug 1 (3, 2)\
+%	 - Empty Jug 1 (0, 2)\
+%	 - Pour Jug 2 into Jug 1 (2, 0)\
+%	 - Fill Jug 2 (2, 5)\
+%	 - Pour Jug 2 into Jug 1 (3, 4) //Jug 2 now has 4 gallons\
+\
+move(s(X,Y),s(Z,5)) :- Z is X - (5 - Y), Z >= 0.\
+\
+move(s(X,Y),s(Z,0)) :- Z is X + Y, Z =< 3.\
+\
+move(s(X,Y),s(3,Z)) :- Z is Y - (3 - X), Z >=0.\
+\
+move(s(X,Y),s(0,Z)) :- Z is X + Y, Z =< 5.\
+\
+move(s(0,Y),s(3,Y)).\
+\
+move(s(X,0),s(X,5)).\
+\
+move(s(X,Y),s(X,0)) :- Y > 0.\
+\
+move(s(X,Y),s(0,Y)) :- X > 0.\
+\
+moves(Xs) :- moves([s(0,0)],Xs).\
+\
+moves([s(X0,Y0)|T], [s(X1,4),s(X0,Y0)|T])\
+    :- move(s(X0,Y0),s(X1,4)), !.\
+\
+moves([s(X0,Y0)|T],Xs) :-\
+    move(s(X0,Y0),s(X1,Y1)),\
+    not(member(s(X1,Y1),[s(X0,Y0)|T])),\
+    moves([s(X1,Y1),s(X0,Y0)|T],Xs).\
+\
+%Query\
+\
+%?- moves(Xs), write(Xs), nl, fail.\
+}
