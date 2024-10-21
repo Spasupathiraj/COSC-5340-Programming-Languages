@@ -1,0 +1,258 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 TimesNewRomanPSMT;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww35640\viewh21840\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 // I used https://www.onlinegdb.com/ to compile, test and run. So, I kindly request to use the same...\
+\
+//	File Name: main.java\
+//	Author: Saranath Raj Pasupathi Raj \
+//	Class Number : COSC 5340\
+//	Section Number : 81344\
+//	Semester: Master's in Computer Science, Second Semester (Fall 2022)\
+//	Assignment Number: Assignment 3\
+//	Date Created: November 4, 2022\
+//	Project Description: \
+//	Your  program  must  make  two  line  objects  from  the  four  points.    It  must  use  the  methods  in  each  \
+//	object to display the following information: \
+//		\'95 Equation of each line in the form y = mx + b \
+//		\'95 The length of each line segments \
+//		\'95 Whether the lines are parallel \
+//		\'95 Whether the point on each line is co-linear with the points on the other line \
+\
+import java.lang.Math;\
+import java.util.Scanner;\
+\
+class Point\
+\{\
+//	private variables\
+    float x,y;\
+    \
+//	public methods\
+\
+//	getters - getX & getY methods are used to fetch the input coordinates\
+    public float getX() \
+    \{\
+        return x;\
+    \}\
+\
+    public float getY() \
+    \{\
+        return y;\
+    \}\
+    \
+//	setters - setX & setY methods are used to set the input coordinates values to the variables \
+    public void setX(float x)\
+    \{\
+        this.x = x;\
+    \}\
+\
+    public void setY(float y) \
+    \{\
+        this.y = y;\
+    \}\
+    \
+//		boolean function isColinear is used to check whether the points lie co-linearly or not\
+    public boolean isColinear(Point a,Point b)\
+    \{\
+//      Using Math Calculation to find the co-linearity \
+        float z = x * (a.y - b.y) + a.x * (b.y - y) + b.x * (y - a.y);\
+        \
+        if (z == 0)\
+        //if the value is zero, then it is colinear else not\
+            return true;\
+        else\
+            return false;\
+\
+    \}\
+\
+\}\
+\
+class Line\
+\{\
+//	private variables\
+    Point p,q;\
+    \
+//	public functions\
+    public Point getP() \
+    \{\
+        return p;\
+    \}\
+    \
+//	getters - getX & getY methods are used to fetch the input coordinates\
+    public Point getQ() \
+    \{\
+        return q;\
+    \}\
+    \
+//	setters - setX & setY methods are used to set the input coordinates values to the variables \
+    public void setP(Point p)\
+    \{\
+        this.p = p;\
+    \}\
+\
+    public void setQ(Point q) \
+    \{\
+        this.q = q;\
+    \}\
+    \
+//	returning the length of the line between 2 points\
+    public double getLength()\
+    \{\
+//      Using the following Math function to find and return the length of the line\
+        double val= Math.sqrt(Math.pow(q.getX() - p.getX(), 2) + Math.pow(q.getY() - p.getY(), 2));\
+        return val;\
+    \}\
+    \
+//	returning the midpoint of the line between 2 points\
+    public Point getMid()\
+    \{\
+        Point mid= new Point();\
+        mid.setX((p.getX()+q.getX())/2);\
+        mid.setY((p.getY()+q.getY())/2);\
+        return mid;\
+    \}\
+    \
+//		returning the gradient of the line if the divider is not equal to zero\
+    public float getM()\
+    \{\
+        if (q.getX() - p.getX() != 0)\
+            return (q.getY() - p.getY()) / (q.getX() - p.getX());\
+        return  Integer.MAX_VALUE;\
+    \}\
+    \
+//		returning the intercept using the gradient and one point of the line\
+    public float getB()\
+    \{\
+        return (p.getY()-(getM()*p.getX()));\
+    \}\
+\
+\}\
+\
+public class Main \
+\{\
+    public static void main(String[] args)\
+    \{\
+        //	Defining 2 objects of line\
+        Line line1,line2;\
+        \
+        //	Defining 4 objects of point\
+        Point p,q,r,s;\
+        \
+        // object creation\
+        line1=new Line();\
+        line2=new Line();\
+        \
+        p =new Point();\
+        q =new Point();\
+        r =new Point();\
+        s =new Point();\
+        float x;\
+        \
+        //	getting user inputs for the 4 coordinates of line 1 and setting them\
+        //  prompting the user to enter the x coordinate of point 1 of the line 1\
+        System.out.println("Enter x coordinate of point 1 of line 1: ");\
+        Scanner myObj = new Scanner(System.in);\
+        \
+        //  reads the user input\
+        x=myObj.nextFloat();\
+        p.setX(x);\
+        \
+        //  prompting the user to enter the y coordinate of point 1 of the line 1\
+        System.out.println("Enter y coordinate of point 1 of line 1: ");\
+        \
+        //  reads the user input\
+        x=myObj.nextFloat();\
+        p.setY(x);\
+        \
+        //  prompting the user to enter the x coordinate of point 2 of the line 1\
+        System.out.println("Enter x coordinate of point 2 of line 1: ");\
+        \
+        //  reads the user input\
+        x=myObj.nextFloat();\
+        q.setX(x);\
+        \
+        //  prompting the user to enter the y coordinate of point 2 of the line 1\
+        System.out.println("Enter y coordinate of point 2 of line 1: ");\
+        \
+        //  reads the user input\
+        x=myObj.nextFloat();\
+        q.setY(x);\
+        \
+        //	getting user inputs for the 4 coordinates of line 2 and setting them\
+        //  prompting the user to enter the x coordinate of point 1 of the line 2\
+        System.out.println("Enter x coordinate of point 1 of line 2: ");\
+        \
+        //  reads the user input\
+        x=myObj.nextFloat();\
+        r.setX(x);\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0         \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0         //  prompting the user to enter the y coordinate of point 1 of the line 2\
+        System.out.println("Enter y coordinate of point 1 of line 2: ");\
+        \
+        //  reads the user input\
+        x=myObj.nextFloat();\
+        r.setY(x);\
+        \
+        //  prompting the user to enter the x coordinate of point 2 of the line 2\
+        System.out.println("Enter x coordinate of point 2 of line 2: ");\
+        \
+        //  reads the user input\
+        x=myObj.nextFloat();\
+        s.setX(x);\
+        \
+        //  prompting the user to enter the y coordinate of point 2 of the line 2\
+        System.out.println("Enter y coordinate of point 2 of line 2: ");\
+        \
+        //  reads the user input\
+        x=myObj.nextFloat();\
+        s.setY(x);\
+\
+        line1.setP(p);\
+        line1.setQ(q);\
+        line2.setP(r);\
+        line2.setQ(s);\
+        \
+        //	getting the gradient and intercept of both lines using the getM and getB methods and print them\
+        System.out.println("Equation of the line 1 is y = "+line1.getM() +"x + "+line1.getB()+"\\n");\
+        \
+        System.out.println("Equation of the line 2 is y = "+line2.getM()+"x + "+line2.getB()+"\\n");\
+        \
+        //	getting the line lengths and print them	\
+        System.out.println("Length of line 1 is "+line1.getLength()+"\\n");\
+        \
+        System.out.println("Length of line 2 is "+line2.getLength()+"\\n");\
+\
+        //	check whether the gradients' are equal\
+        if (line1.getM()==line2.getM())\
+            System.out.println("The lines are parallel\\n");\
+        else\
+            System.out.println("The lines are not parallel\\n");\
+\
+        //	Taking each point and checking whether that point colinearly exists between other 2 points of other line\
+        if (line1.getP().isColinear(r,s))\
+            System.out.println("The point in the line 1 x = "+line1.getP().getX()+" y = "+line1.getP().getY()+" is colinear with line 2\\n");\
+        else\
+            System.out.println("The point in the line 1 x = "+line1.getP().getX()+" y = "+line1.getP().getY()+" is not colinear with line 2\\n");\
+        \
+        if (line1.getQ().isColinear(line2.getP(),line2.getQ()))\
+            System.out.println("The point in the line 1 x = "+line1.getQ().getX()+ " y = "+line1.getQ().getY()+" is colinear with line 2\\n");\
+        else\
+            System.out.println("The point in the line 1 x = "+line1.getQ().getX()+ " y = "+line1.getQ().getY()+" is not colinear with line 2\\n");\
+\
+        if (line2.getP().isColinear(line1.getP(),line1.getQ()))\
+            System.out.println("The point in the line 2 x = "+line2.getP().getX()+" y = "+line2.getP().getY()+" is colinear with line 1\\n");\
+        else\
+             System.out.println("The point in the line 2 x = "+line2.getP().getX()+" y = "+line2.getP().getY()+" is not colinear with line 1\\n");\
+\
+        if (line2.getQ().isColinear(line1.getP(),line1.getQ()))\
+            System.out.println("The point in the line 2 x = "+line2.getQ().getX()+" y = "+line2.getQ().getY()+" is colinear with line 1\\n");\
+        else\
+            System.out.println("The point in the line 2 x = "+line2.getQ().getX()+" y = "+line2.getQ().getY()+" is not colinear with line 1\\n");\
+\
+    \}\
+\}}

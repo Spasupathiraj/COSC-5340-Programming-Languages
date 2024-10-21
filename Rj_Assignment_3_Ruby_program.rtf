@@ -1,0 +1,267 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 TimesNewRomanPSMT;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww35640\viewh22400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 # I used https://www.onlinegdb.com/ to compile, test and run. So, I kindly request to use the same...\
+=begin\
+\
+	File Name: main.rb\
+	Author: Saranath Raj Pasupathi Raj \
+	Class Number : COSC 5340\
+	Section Number : 81344\
+	Semester: Master's in Computer Science, Second Semester (Fall 2022)\
+	Assignment Number: Assignment 3\
+	Date Created: November 4, 2022\
+	Project Description: \
+	Your  program  must  make  two  line  objects  from  the  four  points.    It  must  use  the  methods  in  each  \
+	object to display the following information: \
+		\'95 Equation of each line in the form y = mx + b \
+		\'95 The length of each line segments \
+		\'95 Whether the lines are parallel \
+		\'95 Whether the point on each line is co-linear with the points on the other line \
+=end\
+ \
+\
+\
+class Point\
+\
+    # Define the accessor and reader of class Point\
+    attr_reader :x,:y\
+    attr_accessor :x,:y\
+\
+    # 	private variables\
+    # 	public methods\
+\
+    # 	getters - getX & getY methods are used to fetch the input coordinates\
+    def getX()\
+        return self.x\
+    end\
+\
+    def getY()\
+        return self.y\
+    end\
+\
+    # 	setters - setX & setY methods are used to set the input coordinates values to the variables \
+    def setX( x)\
+        self.x = x\
+    end\
+\
+    def setY( y)\
+        self.y = y\
+    end\
+\
+    # 	boolean function isColinear is used to check whether the points lie co-linearly or not \
+    def isColinear( a,  b)\
+\
+    #	Using Math Calculation to find the co-linearity \
+        z = self.x * (a.y - b.y) + a.x * (b.y - self.y) + b.x * (self.y - a.y)\
+\
+        if (z == 0)\
+\
+            # if the value is zero, then it is co-linear else not\
+            return true\
+\
+        else\
+            return false\
+        end\
+\
+    end\
+\
+end\
+\
+class Line\
+\
+    # Define the accessor and reader of class Line\
+    attr_reader :p,:q\
+    attr_accessor :p,:q\
+\
+    # 	private variables\
+    # 	public functions\
+\
+    # 	getters - getX & getY methods are used to fetch the input coordinates\
+    def getP()\
+        return self.p\
+    end\
+\
+  \
+    def getQ()\
+        return self.q\
+    end\
+\
+    # 	setters - setX & setY methods are used to set the input coordinates values to the variables \
+    def setP( p)\
+        self.p = p\
+    end\
+\
+    def setQ( q)\
+        self.q = q\
+    end\
+\
+    # 	returning the length of the line between 2 points\
+    def getLength()\
+\
+    #	Using the following Math function to find and return the length of the line\
+        val = Math.sqrt((self.q.getX() - self.p.getX())**2 + (self.q.getY() - self.p.getY())**2)\
+        return val\
+    end\
+\
+    # 	returning the midpoint of the line between 2 points\
+\
+    def getMid()\
+        mid = Point.new()\
+        mid.setX((self.p.getX() + self.q.getX()) / 2)\
+        mid.setY((self.p.getY() + self.q.getY()) / 2)\
+        return mid\
+    end\
+\
+    # 	returning the gradient of the line if the divider is not equal to zero\
+\
+    def getM()\
+        if (self.q.getX() - self.p.getX() != 0)\
+            return (self.q.getY()-self.p.getY()) / (self.q.getX()-self.p.getX())\
+        end\
+\
+        return (2**(0.size * 8 -2) -1)\
+    end\
+\
+    # 	returning the intercept using the gradient and one point of the line\
+    def getB()\
+        return (self.p.getY() - (self.getM() * self.p.getX()))\
+\
+    end\
+\
+end\
+\
+class Main\
+    def self.main()\
+\
+        # Defining 2 objects of line\
+        # Defining 4 objects of point\
+        # object creation\
+\
+        line1 = Line.new()\
+        line2 = Line.new()\
+\
+        p = Point.new()\
+        q = Point.new()\
+        r = Point.new()\
+        s = Point.new()\
+\
+        # getting user inputs for the 4 coordinates of line 1 and setting them\
+\
+	    # prompting the user to enter the x coordinate of point 1 of the line 1\
+        print("Enter x coordinate of point 1 of line 1: ","\\n")\
+\
+        # reads the user input\
+        x = gets.chomp.to_f\
+        p.setX(x)\
+        \
+        # prompting the user to enter the y coordinate of point 1 of the line 1\
+        print("Enter y coordinate of point 1 of line 1: ","\\n")\
+\
+        # reads the user input \
+        x = gets.chomp.to_f\
+        p.setY(x)\
+\
+\
+        # prompting the user to enter the x coordinate of point 2 of the line 1\
+        print("Enter x coordinate of point 2 of line 1: ","\\n")\
+\
+        # reads the user input\
+        x = gets.chomp.to_f\
+        q.setX(x)\
+\
+        # prompting the user to enter the y coordinate of point 2 of the line 1\
+        print("Enter y coordinate of point 2 of line 1: ","\\n")\
+\
+        # reads the user input\
+        x = gets.chomp.to_f\
+        q.setY(x)\
+\
+        # getting user inputs for the 4 coordinates of line 2 and setting them\
+\
+        # prompting the user to enter the x coordinate of point 1 of the line 2\
+        print("Enter x coordinate of point 1 of line 2: ","\\n")\
+\
+        # reads the user input\
+        x = gets.chomp.to_f\
+        r.setX(x)\
+\
+        # prompting the user to enter the y coordinate of point 1 of the line 2\
+        print("Enter y coordinate of point 1 of line 2: ","\\n")\
+\
+        # reads the user input\
+        x = gets.chomp.to_f\
+        r.setY(x)\
+\
+        # prompting the user to enter the x coordinate of point 2 of the line 2\
+        print("Enter x coordinate of point 2 of line 2: ","\\n")\
+\
+        # reads the user input\
+        x = gets.chomp.to_f\
+        s.setX(x)\
+\
+        # prompting the user to enter the y coordinate of point 2 of the line 2\
+        print("Enter y coordinate of point 2 of line 2: ","\\n")\
+\
+        # reads the user input\
+        x = gets.chomp.to_f\
+        s.setY(x)\
+\
+        line1.setP(p)\
+        line1.setQ(q)\
+        line2.setP(r)\
+        line2.setQ(s)\
+\
+        # getting the gradient and intercept of both lines using the getM and getB methods and print them\
+        print("Equation of the line 1 is y = " + line1.getM().to_s + "x + " + line1.getB().to_s + "\\n","\\n")\
+        print("Equation of the line 2 is y = " + line2.getM().to_s + "x + " + line2.getB().to_s + "\\n","\\n")\
+\
+        # getting the line lengths and print them	\
+        print("Length of line 1 is " + line1.getLength().to_s + "\\n","\\n")\
+        print("Length of line 2 is " + line2.getLength().to_s + "\\n","\\n")\
+        \
+        # check whether the gradients' are equal or not\
+        if (line1.getM() == line2.getM())\
+            print("The lines are parallel\\n","\\n")\
+        else\
+            print("The lines are not parallel\\n","\\n")\
+        end\
+\
+        # Taking each point and check whether that point co-linearly exists between other 2 points of other line\
+        if (line1.getP().isColinear(r, s))\
+            print("The point in the line 1 x = " + line1.getP().getX().to_s + " y=" + line1.getP().getY().to_s + " is co-linear with line 2\\n","\\n")\
+        else\
+            print("The point in the line 1 x = " + line1.getP().getX().to_s + " y=" + line1.getP().getY().to_s + " is not co-linear with line 2\\n","\\n")\
+                \
+        end\
+\
+        if (line1.getQ().isColinear(line2.getP(), line2.getQ()))\
+            print("The point in the line 1 x = " + line1.getQ().getX().to_s + " y=" + line1.getQ().getY().to_s + " is co-linear with line 2\\n","\\n")\
+        else\
+            print("The point in the line 1 x = " + line1.getQ().getX().to_s + " y=" + line1.getQ().getY().to_s + " is not co-linear with line 2\\n","\\n")\
+            \
+        end\
+\
+        if (line2.getP().isColinear(line1.getP(), line1.getQ()))\
+            print("The point in the line 2 x = " + line2.getP().getX().to_s + " y=" + line2.getP().getY().to_s + " is co-linear with line 1\\n","\\n")\
+        else\
+            print("The point in the line 2 x = " + line2.getP().getX().to_s + " y=" + line2.getP().getY().to_s + " is not co-linear with line 1\\n","\\n")\
+            \
+        end\
+\
+        if (line2.getQ().isColinear(line1.getP(), line1.getQ()))\
+            print("The point in the line 2 x = " + line2.getQ().getX().to_s + " y=" + line2.getQ().getY().to_s + " is co-linear with line 1\\n","\\n")\
+        else\
+            print("The point in the line 2 x = " + line2.getQ().getX().to_s + " y=" + line2.getQ().getY().to_s + " is not co-linear with line 1\\n","\\n")\
+          \
+        end\
+\
+    end\
+\
+end\
+\
+Main.main()}

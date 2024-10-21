@@ -1,0 +1,251 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 TimesNewRomanPSMT;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww35640\viewh21840\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 // I used https://www.onlinegdb.com/ to compile, test and run. So, I kindly request to use the same...\
+\
+//	File Name: main.cpp\
+//	Author: Saranath Raj Pasupathi Raj \
+//	Class Number : COSC 5340\
+//	Section Number : 81344\
+//	Semester: Master's in Computer Science, Second Semester (Fall 2022)\
+//	Assignment Number: Assignment 3\
+//	Date Created: November 4, 2022\
+//	Project Description: \
+//	Your  program  must  make  two  line  objects  from  the  four  points.    It  must  use  the  methods  in  each  \
+//	object to display the following information: \
+//		\'95 Equation of each line in the form y = mx + b \
+//		\'95 The length of each line segments \
+//		\'95 Whether the lines are parallel \
+//		\'95 Whether the point on each line is co-linear with the points on the other line \
+\
+#include<iostream>\
+#include<math.h>\
+#include <bits/stdc++.h>\
+using namespace std;\
+\
+class Point\
+\{\
+//	private variables\
+	float x;\
+	float y;\
+	\
+//	public methods\
+//  getters - getX & getY methods are used to fetch the input coordinates\
+	public:\
+		float getX()\
+		\{\
+			return x;\
+		\}\
+		\
+		float getY()\
+		\{\
+			return y;\
+		\}\
+		\
+//		setters - setX & setY methods are used to set the input coordinates values to the variables \
+		void setX(float X)\
+		\{\
+			x=X;\
+		\}\
+		\
+		void setY(float Y)\
+		\{\
+			y=Y;\
+		\}\
+		\
+//		boolean function isColinear is used to check whether the points lie co-linearly or not\
+		bool isColinear(Point a,Point b)\
+		\{\
+//		    Using Math Calculation to find the co-linearity \
+			float z = x * (a.y - b.y) + a.x * (b.y - y) + b.x * (y - a.y);\
+			\
+			if (z == 0)\
+			//if the value is zero, then it is colinear else not\
+			    return true;\
+			else\
+			    return false;\
+		\}\
+\};\
+\
+class Line\
+\{\
+//	private variables\
+	Point p,q;\
+	\
+//	public functions\
+	public:\
+	\
+//		getters - getX & getY methods are used to fetch the input coordinates\
+		Point getP()\
+		\{\
+			return p;\
+		\}\
+		\
+		Point getQ()\
+		\{\
+			return q;\
+		\}\
+		\
+//		setters - setX & setY methods are used to set the input coordinates values to the variables \
+		void setP(Point P)\
+		\{\
+			p.setX(P.getX());\
+			p.setY(P.getY());\
+		\}\
+		\
+		void setQ(Point Q)\
+		\{\
+			q.setX(Q.getX());\
+			q.setY(Q.getY());\
+		\}\
+		\
+//		returning the length of the line between 2 points\
+		float getLength()\
+		\{\
+//		Using the following Math function to find and return the length of the line\
+			float val= sqrt(pow(q.getX() - p.getX(), 2) + pow(q.getY() - p.getY(), 2));\
+			return val;\
+		\}\
+		\
+//		returning the midpoint of the line between 2 points\
+		Point getMid()\
+		\{\
+			Point mid;\
+			mid.setX((p.getX()+q.getX())/2);\
+			mid.setY((p.getY()+q.getY())/2);\
+			return mid;\
+		\}\
+		\
+//		returning the gradient of the line if the divider is not equal to zero\
+		float getM()\
+		\{\
+			if (q.getX() - p.getX() != 0)\
+        		return (q.getY() - p.getY()) / (q.getX() - p.getX());\
+    		return INT_MAX;\
+		\}\
+		\
+//		returning the intercept using the gradient and one point of the line\
+		float getB()\
+		\{\
+			return (p.getY()-(getM()*p.getX()));\
+		\}\
+\};\
+\
+int main()\
+\{\
+//	Defining 2 objects of line\
+	Line line1,line2;\
+	\
+//	Defining 4 objects of point\
+	Point p,q,r,s;\
+	\
+//	initializing an array of 8 for saving the user inputs\
+	float x[8];\
+\
+//	getting user inputs for the 4 coordinates of line 1 and setting them\
+//	prompting the user to enter the x coordinate of point 1 of the line 1\
+	cout<<"Enter x coordinate of point 1 of line 1\\n";\
+	\
+//  reads the user input\
+	cin>>x[0];\
+	p.setX(x[0]);\
+\
+//	prompting the user to enter the y coordinate of point 1 of the line 1	\
+	cout<<"Enter y coordinate of point 1 of line 1\\n";\
+	\
+//  reads the user input\
+	cin>>x[1];\
+	p.setY(x[1]);\
+\
+//	prompting the user to enter the x coordinate of point 2 of the line 1\
+	cout<<"Enter x coordinate of point 2 of line 1\\n";\
+	\
+//  reads the user input\
+	cin>>x[2];\
+	q.setX(x[2]);\
+\
+//	prompting the user to enter the y coordinate of point 2 of the line 1	\
+	cout<<"Enter y coordinate of point 2 of line 1\\n";\
+	\
+//  reads the user input\
+	cin>>x[3];\
+	q.setY(x[3]);\
+		\
+	line1.setP(p);\
+	line1.setQ(q);\
+\
+//	getting user inputs for the 4 coordinates of line 2 and setting them\
+//	prompting the user to enter the x coordinate of point 1 of the line 2\
+	cout<<"Enter x coordinate of point 1 of line 2\\n";\
+	\
+//  reads the user input\
+	cin>>x[4];\
+	r.setX(x[4]);\
+\
+//	prompting the user to enter the y coordinate of point 1 of the line 2	\
+	cout<<"Enter y coordinate of point 1 of line 2\\n";\
+	\
+//  reads the user input\
+	cin>>x[5];\
+	r.setY(x[5]);\
+\
+//	prompting the user to enter the x coordinate of point 2 of the line 2	\
+	cout<<"Enter x coordinate of point 2 of line 2\\n";\
+	\
+//  reads the user input\
+	cin>>x[6];\
+	s.setX(x[6]);\
+\
+//	prompting the user to enter the y coordinate of point 2 of the line 2\
+	cout<<"Enter y coordinate of point 2 of line 2\\n";\
+	\
+//  reads the user input\
+	cin>>x[7];\
+	s.setY(x[7]);\
+	\
+	line2.setP(r);\
+	line2.setQ(s);\
+	\
+//	getting the gradient and intercept of both lines using the getM and getB methods and print them\
+	cout<<"Equation of the line 1 is y = "<<line1.getM()<<"x + "<<line1.getB()<<endl;\
+	cout<<"Equation of the line 2 is y = "<<line2.getM()<<"x + "<<line2.getB()<<endl;\
+	\
+//	getting the line lengths and print them	\
+	cout<<"Length of line 1 is "<<line1.getLength()<<endl;\
+	cout<<"Length of line 2 is "<<line2.getLength()<<endl;\
+	\
+//	check whether the gradients' are equal\
+	if (line1.getM()==line2.getM())\
+		cout<<"The lines are parallel\\n";\
+	else\
+		cout<<"The lines are not parallel\\n";\
+\
+//	Taking each point and checking whether that point colinearly exists between other 2 points of other line		\
+	if (line1.getP().isColinear(line2.getP(),line2.getQ()))\
+		cout<<"The point in the line 1 x = "<<line1.getP().getX()<<" y = "<<line1.getP().getY()<<" is colinear with line 2\\n";\
+    	else\
+        		cout<<"The point in the line 1 x = "<<line1.getP().getX()<<" y = "<<line1.getP().getY()<<" is not colinear with line 2\\n";\
+	\
+	if (line1.getQ().isColinear(line2.getP(),line2.getQ()))\
+		cout<<"The point in the line 1 x = "<<line1.getQ().getX()<<" y = "<<line1.getQ().getY()<<" is colinear with line 2\\n";\
+	else\
+	    	cout<<"The point in the line 1 x = "<<line1.getQ().getX()<<" y = "<<line1.getQ().getY()<<" is not colinear with line 2\\n";\
+\
+	if (line2.getP().isColinear(line1.getP(),line1.getQ()))\
+		cout<<"The point in the line 2 x = "<<line2.getP().getX()<<" y = "<<line2.getP().getY()<<" is colinear with line 1\\n";\
+	else\
+	    	cout<<"The point in the line 2 x = "<<line2.getP().getX()<<" y = "<<line2.getP().getY()<<" is not colinear with line 1\\n";\
+	    \
+	if (line2.getQ().isColinear(line1.getP(),line1.getQ()))\
+		cout<<"The point in the line 2 x = "<<line2.getQ().getX()<<" y = "<<line2.getQ().getY()<<" is colinear with line 1\\n";\
+	else\
+	 	cout<<"The point in the line 2 x = "<<line2.getQ().getX()<<" y = "<<line2.getQ().getY()<<" is not colinear with line 1\\n";\
+	\
+	return 0;\
+	\
+	\
+\}}
