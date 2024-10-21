@@ -1,0 +1,384 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 TimesNewRomanPSMT;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww35640\viewh22400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\qj\partightenfactor0
+
+\f0\fs24 \cf0 ; MY-MEMBER function (re-defined)\
+(defun MY-MEMBER (elt lst)\
+  (cond\
+    ((null lst) nil)                     ; If lst is empty, return nil.\
+    ((equal elt (car lst)) t)            ; If elt is equal to the first element of lst, return true.\
+    (t (MY-MEMBER elt (cdr lst)))))     ; Otherwise, recursively call MY-MEMBER with the rest of lst.\
+   \
+; MY-UNION function\
+(defun MY-UNION (lista listb)\
+  (cond\
+    ((null lista) listb)                ; If lista is empty, return listb.\
+    ((MY-MEMBER (car lista) listb)      ; If the first element of lista is a member of listb, skip it.\
+      (MY-UNION (cdr lista) listb))     ; Recursively call MY-UNION to process the rest of lista.\
+    (t                                ; If the first element is not in listb, add it to the result.\
+      (cons (car lista) (MY-UNION (cdr lista) listb))))) ; Include it in the result and recursively call MY-UNION.\
+\
+; MY-INTERSECT function\
+(defun MY-INTERSECT (lista listb)\
+  (cond\
+    ((null lista) '())                       ; If lista is empty, return an empty list.\
+    ((MY-MEMBER (car lista) listb)            ; If the first element of lista is a member of listb, include it in the result.\
+      (cons (car lista) (MY-INTERSECT (cdr lista) listb))) ; Include the current element in the result and recursively call MY-INTERSECT.\
+    (t (MY-INTERSECT (cdr lista) listb))))    ; Otherwise, continue checking the rest of lista.\
+\
+; MY-DIFFERENCE function\
+(defun MY-DIFFERENCE (lista listb)\
+  (cond\
+    ((null lista) '())                       ; If lista is empty, return an empty list.\
+    ((MY-MEMBER (car lista) listb)            ; If the first element of lista is a member of listb, skip it.\
+      (MY-DIFFERENCE (cdr lista) listb))     ; Recursively call MY-DIFFERENCE to process the rest of lista.\
+    (t (cons (car lista) (MY-DIFFERENCE (cdr lista) listb))))) ; Otherwise, include it in the result.\
+\
+; Define variables to store the results\
+(defvar member_result1)\
+(defvar member_result2)\
+(defvar intersect_result1)\
+(defvar intersect_result2)\
+(defvar intersect_result3)\
+(defvar intersect_result4)\
+(defvar intersect_result5)\
+(defvar intersect_result6)\
+(defvar union_result1)\
+(defvar union_result2)\
+(defvar union_result3)\
+(defvar union_result4)\
+(defvar union_result5)\
+(defvar union_result6)\
+(defvar difference_result1)\
+(defvar difference_result2)\
+(defvar difference_result3)\
+(defvar difference_result4)\
+(defvar difference_result5)\
+(defvar difference_result6)\
+\
+(format t "~%") ; This line creates a single line space\
+(format t "MY-MEMBER TEST CASES~%")\
+(format t "~A~%" (make-string 20 :initial-element #\\=)) ; Creates a line of equal signs\
+\
+; Test MY-MEMBER for an element that is a member of the list\
+(setq member_result1 (MY-MEMBER 'A '(A B C)))\
+(format t "\
+------------------------------------------------------------------        \
+MY-MEMBER               TEST CASE 1         IS A MEMBER\
+------------------------------------------------------------------  \
+\
+CL-USER 1 : 1    >       my-member         '(a) '(a b c) ~%Result: ~A~%" member_result1)\
+\
+; Test MY-MEMBER for an element that is not a member of the list\
+(setq member_result2 (MY-MEMBER 'A '(B C D)))\
+(format t "\
+------------------------------------------------------------------        \
+MY-MEMBER               TEST CASE 2         NOT A MEMBER\
+------------------------------------------------------------------  \
+\
+CL-USER 2 : 1    >       my-member          '(a) '(b c d) ~%Result: ~A~%" member_result2)\
+\
+(format t "~%~%") ; This line creates a double line space\
+\
+(format t "MY-INTERSECT TEST CASES~%")\
+(format t "~A~%" (make-string 25 :initial-element #\\=)) ; Creates a line of equal signs\
+\
+; Test MY-INTERSECT for two equal sets\
+(setq intersect_result1 (MY-INTERSECT '(A B C) '(A B C)))\
+(format t "\
+------------------------------------------------------------------        \
+MY-INTERSECT               TEST CASE 1         TWO EQUAL SETS\
+------------------------------------------------------------------  \
+\
+CL-USER 3 : 1    >         my-intersect       '(a b c) '(a b c) ~%Result: ~A~%" intersect_result1)\
+\
+; Test MY-INTERSECT for two disjoint sets\
+(setq intersect_result2 (MY-INTERSECT '(A B C) '(D E F)))\
+(format t "\
+------------------------------------------------------------------        \
+MY-INTERSECT               TEST CASE 2         TWO DISJOINT SETS\
+------------------------------------------------------------------  \
+  \
+CL-USER 4 : 1    >         my-intersect        '(a b c) '(d e f) ~%Result: ~A~%" intersect_result2 )\
+\
+; Test MY-INTERSECT for two non-disjoint sets\
+(setq intersect_result3 (MY-INTERSECT '(A B C) '(B C D)))\
+(format t "        \
+------------------------------------------------------------------        \
+MY-INTERSECT               TEST CASE 3         TWO NON-DISJOINT SETS\
+------------------------------------------------------------------  \
+\
+CL-USER 5 : 1    >         my-intersect         '(a b c) '(b c d) ~%Result: ~A~%" intersect_result3)\
+\
+; Test MY-INTERSECT when the first set is empty\
+(setq intersect_result4 (MY-INTERSECT '() '(A B C)))\
+(format t "        \
+------------------------------------------------------------------        \
+MY-INTERSECT               TEST CASE 4         FIRST SET EMPTY\
+------------------------------------------------------------------  \
+\
+CL-USER 6 : 1    >         my-intersect         '() '(a b c) ~%Result: ~A~%" intersect_result4)\
+\
+; Test MY-INTERSECT when the second set is empty\
+(setq intersect_result5 (MY-INTERSECT '(A B C) '()))\
+(format t "        \
+------------------------------------------------------------------        \
+MY-INTERSECT               TEST CASE 5         SECOND SET EMPTY\
+------------------------------------------------------------------  \
+\
+CL-USER 7 : 1    >         my-intersect          '(a b c) '() ~%Result: ~A~%" intersect_result5)\
+\
+; Test MY-INTERSECT when both sets are empty\
+(setq intersect_result6 (MY-INTERSECT '() '()))\
+(format t "\
+------------------------------------------------------------------        \
+MY-INTERSECT              TEST CASE 6         BOTH SETS EMPTY\
+------------------------------------------------------------------  \
+\
+CL-USER 8 : 1    >        my-intersect           '() '() ~%Result: ~A~%" intersect_result6)\
+\
+(format t "~%~%") ; This line creates a double line space\
+\
+(format t "MY-UNION TEST CASES~%")\
+(format t "~A~%" (make-string 20 :initial-element #\\=)) ; Creates a line of equal signs\
+\
+; Test MY-UNION for two equal sets\
+(setq union_result1 (MY-UNION '(A B C) '(A B C)))\
+(format t "\
+------------------------------------------------------------------        \
+MY-UNION               TEST CASE 1         TWO EQUAL SETS\
+------------------------------------------------------------------  \
+\
+CL-USER 9 : 1    >      my-union         '(a b c) '(a b c) ~%Result: ~A~%" union_result1)\
+\
+; Test MY-UNION for two disjoint sets\
+(setq union_result2 (MY-UNION '(A B C) '(D E F)))\
+(format t "\
+------------------------------------------------------------------        \
+MY-UNION               TEST CASE 2         TWO DISJOINT SETS\
+------------------------------------------------------------------  \
+  \
+CL-USER 10 : 1    >      my-union          '(a b c) '(d e f) ~%Result: ~A~%" union_result2)\
+\
+; Test MY-UNION for two non-disjoint sets\
+(setq union_result3 (MY-UNION '(A B C) '(B C D)))\
+(format t "\
+------------------------------------------------------------------        \
+MY-UNION               TEST CASE 3         TWO NON-DISJOINT SETS\
+------------------------------------------------------------------  \
+\
+CL-USER 11 : 1    >      my-union            '(a b c) '(b c d) ~%Result: ~A~%" union_result3)\
+\
+; Test MY-UNION when the first set is empty\
+(setq union_result4 (MY-UNION '() '(A B C)))\
+(format t "\
+------------------------------------------------------------------        \
+MY-UNION               TEST CASE 4         FIRST SET EMPTY\
+------------------------------------------------------------------  \
+\
+CL-USER 12 : 1    >     my-union            '() '(a b c) ~%Result: ~A~%" union_result4)\
+\
+; Test MY-UNION when the second set is empty\
+(setq union_result5 (MY-UNION '(A B C) '()))\
+(format t "\
+------------------------------------------------------------------        \
+MY-UNION               TEST CASE 5         SECOND SET EMPTY\
+------------------------------------------------------------------  \
+\
+CL-USER 13 : 1    >     my-union             '(a b c) '() ~%Result: ~A~%" union_result5)\
+\
+; Test MY-UNION when both sets are empty\
+(setq union_result6 (MY-UNION '() '()))\
+(format t "\
+------------------------------------------------------------------        \
+MY-UNION               TEST CASE 6         BOTH SETS EMPTY\
+------------------------------------------------------------------  \
+\
+CL-USER 14 : 1    >     my-union              '() '() ~%Result: ~A~%" union_result6)\
+\
+(format t "~%~%") ; This line creates a double line space\
+\
+(format t "MY-DIFFERENCE TEST CASES~%")\
+(format t "~A~%" (make-string 25 :initial-element #\\=)) ; Creates a line of equal signs\
+\
+; Test MY-DIFFERENCE for two equal sets\
+(setq difference_result1 (MY-DIFFERENCE '(A B C) '(A B C)))\
+(format t "        \
+------------------------------------------------------------------        \
+MY-DIFFERENCE           TEST CASE 1         TWO EQUAL SETS\
+------------------------------------------------------------------  \
+\
+CL-USER 15 : 1    >     my-difference        '(a b c) '(a b c) ~%Result: ~A~%" difference_result1)\
+\
+; Test MY-DIFFERENCE for two disjoint sets\
+(setq difference_result2 (MY-DIFFERENCE '(A B C) '(D E F)))\
+(format t "        \
+------------------------------------------------------------------        \
+MY-DIFFERENCE           TEST CASE 2         TWO DISJOINT SETS\
+------------------------------------------------------------------  \
+  \
+CL-USER 16 : 1    >     my-difference         '(a b c) '(d e f) ~%Result: ~A~%" difference_result2)\
+\
+; Test MY-DIFFERENCE for two non-disjoint sets\
+(setq difference_result3 (MY-DIFFERENCE '(A B C) '(B C D)))\
+(format t "\
+------------------------------------------------------------------        \
+MY-DIFFERENCE          TEST CASE 3         TWO NON-DISJOINT SETS\
+------------------------------------------------------------------  \
+\
+CL-USER 17 : 1    >    my-difference          '(a b c) '(b c d) ~%Result: ~A~%" difference_result3)\
+\
+; Test MY-DIFFERENCE when the first set is empty\
+(setq difference_result4 (MY-DIFFERENCE '() '(A B C)))\
+(format t "\
+------------------------------------------------------------------        \
+MY-DIFFERENCE          TEST CASE 4         FIRST SET EMPTY\
+------------------------------------------------------------------  \
+\
+CL-USER 18 : 1    >    my-difference         '() '(a b c) ~%Result: ~A~%" difference_result4)\
+\
+; Test MY-DIFFERENCE when the second set is empty\
+(setq difference_result5 (MY-DIFFERENCE '(A B C) '()))\
+(format t "   \
+------------------------------------------------------------------        \
+MY-DIFFERENCE          TEST CASE 5         SECOND SET EMPTY\
+------------------------------------------------------------------  \
+\
+CL-USER 19 : 1    >    my-difference         '(a b c) '() ~%Result: ~A~%" difference_result5)\
+\
+; Test MY-DIFFERENCE when both sets are empty\
+(setq difference_result6 (MY-DIFFERENCE '() '()))\
+(format t "\
+------------------------------------------------------------------        \
+MY-DIFFERENCE           TEST CASE 6         BOTH SETS EMPTY\
+------------------------------------------------------------------  \
+\
+CL-USER 20 : 1    >     my-difference         '() '() ~%Result: ~A~%" difference_result6)\
+\
+(format t "~%~%") ; This line creates a double line space\
+\
+; Define your MY-MEMBER, MY-UNION, MY-INTERSECT and MY-DIFFERENCE functions as needed\
+\
+(defun my-member (elt lst)\
+  (cond\
+    ((null lst) nil)                  ; If lst is empty, return nil.\
+    ((equal elt (car lst)) t)         ; If elt is equal to the first element of lst, return true.\
+    (t (my-member elt (cdr lst)))     ; Otherwise, recursively call my-member with the rest of lst.\
+  )\
+)\
+\
+(defun my-union (lista listb)\
+  (cond\
+    ((null lista) listb)                           ; If lista is empty, return listb.\
+    ((my-member (car lista) listb)                ; If the first element of lista is a member of listb, skip it.\
+      (my-union (cdr lista) listb))               ; Recursively call my-union with the rest of lista.\
+    (t (cons (car lista) (my-union (cdr lista) listb))) ; Otherwise, add the first element to the result and recursively call my-union with the rest of lista.\
+  )\
+)\
+\
+(defun my-intersect (lista listb)\
+  (cond\
+    ((null lista) lista)                             ; If lista is empty, return an empty list.\
+    ((my-member (car lista) listb)                   ; If the first element of lista is a member of listb, include it in the result.\
+      (cons (car lista) (my-intersect (cdr lista) listb))) ; Include the current element in the result and recursively call my-intersect with the rest of lista.\
+    (t (my-intersect (cdr lista) listb))             ; Otherwise, continue checking the rest of lista.\
+  )\
+)\
+\
+(defun my-difference (set1 set2)\
+  "Return a new set containing elements in set1 but not in set2."\
+  (remove-if (lambda (x) (my-member x set2)) set1)) ;This line uses the remove-if function to create a new set containing elements in set1 for which the lambda function (lambda (x) (my-member x set2)) returns true. \
+\
+;This lambda function checks if each element of set1 is a member of set2 using the my-member function.\
+\
+;The overall function provides a set-theoretic difference, returning elements in set1 that are not present in set2. \
+\
+;The remove-if function is used to filter out elements that satisfy the given condition.\
+\
+; Define the run-tests function with test cases\
+(defun run-tests ()\
+  (format t "MY-MEMBER TEST CASES~%")\
+  (format t "~A~%" (make-string 20 :initial-element #\\=)) ; Creates a line of equal signs\
+\
+  ; Test Case 1: A is a member\
+  (format t "MY-MEMBER TEST CASE 1: A MEMBER = 'a '(a b c) ~%Result: ~A~%" (my-member 'a '(a b c)))\
+\
+  ; Test Case 2: A is not a member\
+  (format t "MY-MEMBER TEST CASE 2: NOT A MEMBER = 'a '(b c d) ~%Result: ~A~%" (my-member 'a '(b c d)))\
+   \
+  (format t "~%") ; This line creates a single line space\
+    \
+  (format t "MY-INTERSECT TEST CASES~%")\
+  (format t "~A~%" (make-string 25 :initial-element #\\=)) ; Creates a line of equal signs\
+    \
+  ; Test Case 1: Two Equal Sets\
+  (format t "MY-INTERSECT TEST CASE 1: TWO EQUAL SETS = '(a b c) '(a b c) ~%Result: ~A~%" (my-intersect '(a b c) '(a b c))) \
+    \
+  ; Test Case 2: Two Disjoint Sets\
+  (format t "MY-INTERSECT TEST CASE 2: TWO DISJOINT SETS = '(a b c) '(d e f) ~%Result: ~A~%" (my-intersect '(a b c) '(d e f)))\
+    \
+  ; Test Case 3: Two Non-Disjoint Sets\
+  (format t "MY-INTERSECT TEST CASE 3: TWO NON-DISJOINT SETS = '(a b c) '(b c d) ~%Result: ~A~%" (my-intersect '(a b c) '(b c d)))\
+    \
+  ; Test Case 4: First Set Empty \
+  (format t "MY-INTERSECT TEST CASE 4: FIRST SET EMPTY = '() '(a b c) ~%Result: ~A~%" (my-intersect '() '(a b c)))\
+    \
+  ; Test Case 5: Second Set Empty\
+  (format t "MY-INTERSECT TEST CASE 5: SECOND SET EMPTY = '(a b c) '() ~%Result: ~A~%" (my-intersect '(a b c) '()))\
+    \
+  ; Test Case 6: Both Sets Empty\
+  (format t "MY-INTERSECT TEST CASE 6: BOTH SETS EMPTY = '() '() ~%Result: ~A~%" (my-intersect '() '()))\
+   \
+  (format t "~%") ; This line creates a single line space\
+    \
+  (format t "MY-UNION TEST CASES~%")\
+  (format t "~A~%" (make-string 20 :initial-element #\\=)) ; Creates a line of equal signs\
+    \
+  ; Test Case 1: Two Equal Sets \
+  (format t "MY-UNION TEST CASE 1: TWO EQUAL SETS = '(a b c) '(a b c) ~%Result: ~A~%" (my-union '(a b c) '(a b c)))\
+    \
+  ; Test Case 2: Two Disjoint Sets  \
+  (format t "MY-UNION TEST CASE 2: TWO DISJOINT SETS = '(a b c) '(d e f) ~%Result: ~A~%" (my-union '(a b c) '(d e f)))\
+    \
+  ; Test Case 3: Two Non-Disjoint Sets  \
+  (format t "MY-UNION TEST CASE 3: TWO NON-DISJOINT SETS = '(a b c) '(b c d) ~%Result: ~A~%" (my-union '(a b c) '(b c d)))\
+    \
+  ; Test Case 4: First Set Empty \
+  (format t "MY-UNION TEST CASE 4: FIRST SET EMPTY = '() '(a b c) ~%Result: ~A~%" (my-union '() '(a b c)))\
+    \
+  ; Test Case 5: Second Set Empty  \
+  (format t "MY-UNION TEST CASE 5: SECOND SET EMPTY = '(a b c) '() ~%Result: ~A~%" (my-union '(a b c) '()))\
+    \
+  ; Test Case 6: Both Sets Empty  \
+  (format t "MY-UNION TEST CASE 6: BOTH SETS EMPTY = '() '() ~%Result: ~A~%" (my-union '() '()))\
+    \
+  (format t "~%") ; This line creates a single line space\
+  \
+  (format t "MY-DIFFERENCE TEST CASES~%")\
+  (format t "~A~%" (make-string 25 :initial-element #\\=)) ; Creates a line of equal signs\
+    \
+  ; Test Case 1: Two Equal Sets\
+  (format t "MY-DIFFERENCE TEST CASE 1: TWO EQUAL SETS = '(a b c) '(a b c) ~%Result: ~A~%" (my-difference '(a b c) '(a b c)))\
+    \
+  ; Test Case 2: Two Disjoint Sets  \
+  (format t "MY-DIFFERENCE TEST CASE 2: TWO DISJOINT SETS = '(a b c) '(d e f) ~%Result: ~A~%" (my-difference '(a b c) '(d e f)))\
+    \
+  ; Test Case 3: Two Non-Disjoint Sets  \
+  (format t "MY-DIFFERENCE TEST CASE 3: TWO NON-DISJOINT SETS = '(a b c) '(b c d) ~%Result: ~A~%" (my-difference '(a b c) '(b c d)))\
+    \
+  ; Test Case 4: First Set Empty  \
+  (format t "MY-DIFFERENCE TEST CASE 4: FIRST SET EMPTY = '() '(a b c) ~%Result: ~A~%" (my-difference '() '(a b c)))\
+    \
+  ; Test Case 5: Second Set Empty \
+  (format t "MY-DIFFERENCE TEST CASE 5: SECOND SET EMPTY = '(a b c) '() ~%Result: ~A~%" (my-difference '(a b c) '()))\
+    \
+  ; Test Case 6: Both Sets Empty  \
+  (format t "MY-DIFFERENCE TEST CASE 6: BOTH SETS EMPTY = '() '() ~%Result: ~A~%" (my-difference '() '()))\
+)\
+; Call the run-tests function to execute the test cases\
+(run-tests)\
+\
+}
