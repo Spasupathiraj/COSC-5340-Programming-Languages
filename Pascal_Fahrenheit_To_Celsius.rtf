@@ -1,0 +1,58 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww14800\viewh9740\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \{https://www.onlinegdb.com has been used to compile, test and run. So, if you can use the same that would be much appreciated.\}\
+\
+(*\
+    File name: Pascal_Fahrenheit_To_Celsius.pas\
+	Author : Saranath Raj Pasupathi Raj\
+	Class Number : COSC 5340\
+	Section Number : 81344\
+	Semester: Master's in Computer Science, Second Semester (Fall 2022)\
+    	Assignment Number: Assignment 2\
+    	Date Created: October 14, 2022\
+    	Project Description: \
+      	- Pascal program that repeatedly prompts a user (with instructions) for a temperature in Fahrenheit.  \
+      	- After the temperature is entered, the program should convert the temperature to Celsius\
+      	- And print a sentence with the following format:  X degrees Fahrenheit is equal to Y degrees Celsius \
+      	- Where X is the value entered by the user, and Y is the calculated Celsius temperature. \
+      	- As  mentioned,  the  program  should  repeatedly  prompt  a  user  for  a  Fahrenheit  temperature.    \
+      	- This should continue until the user enters the number 32.  At that point, the program should terminate. \
+      	- The formula for converting Fahrenheit to Celsius is 5/9 \'d7 (F - 32)\
+*)\
+\
+\{Program Fahrenheit_To_Celsius represents the Program Name/Title\}\
+program FahrenheitToCelsius;\
+\
+\{Variable Declaration to get the input value in Fahrenheit and process the output value in Celsius\}\
+var \
+F_Degrees, C_degrees : real;\
+\
+\{Main Program Block is the place where the Complete Execution begins\}\
+begin\
+    \
+    \{Repeat keyword helps to start the loop and terminates only when condition is dissatisfied,\
+     In our program the condition is repeatedly  prompt  a  user  for  a  Fahrenheit  temperature until the user enters the number 32\}\
+    repeat\
+        \
+        \{Writeln function displays the text on Command window\}\
+        writeln ('Enter the value of Fahrenheit degrees:');\
+        \
+        \{Readln function reads the line from the input console\}\
+        readln (F_degrees);\
+        \
+        \{The formula for converting Fahrenheit to Celsius is 5/9 \'d7 (F - 32)\}\
+        C_degrees := (5/9) * (F_degrees - 32);\
+        \
+        \{Writeln function now displays the output value of C_degrees\}\
+        writeln( F_degrees:0:2 , ' degrees Fahrenheit is equal to ' , C_degrees:0:2, ' degrees Celsius' );\
+        \
+    \{until loop checks the condition on if the user enters a value less than or equal to 32 degrees then the program exits\}\
+    until F_degrees <= 32;\
+    \
+\{End of the Program block\}    \
+end.}
